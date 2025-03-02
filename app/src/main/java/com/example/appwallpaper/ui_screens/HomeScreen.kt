@@ -17,11 +17,15 @@ import com.example.appwallpaper.viewmodel.WallpaperViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.appwallpaper.viewmodel.ViewModelFactory
+import com.example.appwallpaper.data.WallpaperRepository
+import com.example.appwallpaper.data.remote.ApiService
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController) {
-    val viewModel: WallpaperViewModel = viewModel()
+    val repository = remember { WallpaperRepository(ApiService.create()) }
+    val viewModel: WallpaperViewModel = viewModel(factory = ViewModelFactory(repository))
     val wallpapers by viewModel.wallpapers.collectAsStateWithLifecycle()
 
     Scaffold(

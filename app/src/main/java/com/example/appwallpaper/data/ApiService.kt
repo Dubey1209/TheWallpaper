@@ -1,16 +1,26 @@
-package com.example.appwallpaper.data.remote
+﻿package com.example.appwallpaper.data.remote
 
-import com.example.appwallpaper.data.PexelsResponse  // ✅ IMPORT ADDED
-import retrofit2.Call
+import com.example.appwallpaper.data.PexelsResponse
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.Query
 
 interface ApiService {
-    @Headers("0i63jXLGsOK6MR6GGRP4tqjE-42E7qm7_Je8YfNja2E")  // 🔥 Yahan apni API key paste karo
-    @GET("v1/curated")  // ✅ Pexels API se curated wallpapers lene ke liye
-    fun getWallpapers(
-        @Query("per_page") perPage: Int = 20,
-        @Query("page") page: Int = 1
-    ): Call<PexelsResponse>  // ✅ Ensure PexelsResponse is correctly used
+
+    @GET("v1/curated")
+    suspend fun getWallpapers(
+        @Query("per_page") perPage: Int,
+        @Query("page") page: Int
+    ): PexelsResponse
+
+    companion object {
+        private const val BASE_URL = "https://api.pexels.com/"
+
+        fun create(): ApiService {
+            return retrofit2.Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(retrofit2.converter.gson.GsonConverterFactory.create())
+                .build()
+                .create(ApiService::class.java)
+        }
+    }
 }
