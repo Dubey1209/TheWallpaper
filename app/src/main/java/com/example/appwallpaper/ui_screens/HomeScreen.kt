@@ -19,7 +19,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.appwallpaper.viewmodel.ViewModelFactory
 import com.example.appwallpaper.data.WallpaperRepository
-import com.example.appwallpaper.data.remote.ApiService
+//import com.example.appwallpaper.data.ApiService
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,34 +33,45 @@ fun HomeScreen(navController: NavController) {
             CenterAlignedTopAppBar(title = { Text("Wallpapers") })
         }
     ) { padding ->
-        if (wallpapers.isEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = androidx.compose.ui.Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2), // 2 images per row
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(8.dp),
-                contentPadding = PaddingValues(8.dp)
-            ) {
-                items(wallpapers) { wallpaper ->
-                    if (wallpaper.imageRes != null) {
-                        Image(
-                            painter = painterResource(id = wallpaper.imageRes),
-                            contentDescription = null,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    } else if (wallpaper.imageUrl != null) {
-                        AsyncImage(
-                            model = wallpaper.imageUrl,
-                            contentDescription = null,
-                            modifier = Modifier.fillMaxWidth()
-                        )
+        Box(modifier = Modifier.fillMaxSize().padding(padding)) {
+            if (wallpapers.isEmpty()) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    CircularProgressIndicator()
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text("Loading wallpapers, please wait...", style = MaterialTheme.typography.bodyMedium)
+                }
+            } else {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    modifier = Modifier.fillMaxSize().padding(8.dp),
+                    contentPadding = PaddingValues(8.dp)
+                ) {
+                    items(wallpapers) { wallpaper ->
+                        Box(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+                            if (wallpaper.imageRes != null) {
+                                Image(
+                                    painter = painterResource(id = wallpaper.imageRes),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier.fillMaxWidth().clickable {
+                                        navController.navigate("wallpaperDetail/${wallpaper.id}")
+                                    }
+                                )
+                            } else if (wallpaper.imageUrl != null) {
+                                AsyncImage(
+                                    model = wallpaper.imageUrl,
+                                    contentDescription = null,
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier.fillMaxWidth().clickable {
+                                        navController.navigate("wallpaperDetail/${wallpaper.id}")
+                                    }
+                                )
+                            }
+                        }
                     }
                 }
             }

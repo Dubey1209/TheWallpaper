@@ -7,6 +7,7 @@ import com.example.appwallpaper.data.WallpaperRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 
 class WallpaperViewModel(private val repository: WallpaperRepository) : ViewModel() {
 
@@ -19,8 +20,14 @@ class WallpaperViewModel(private val repository: WallpaperRepository) : ViewMode
 
     private fun fetchWallpapers() {
         viewModelScope.launch {
-            val fetchedWallpapers = repository.getWallpapers() ?: emptyList()
-            _wallpapers.value = fetchedWallpapers
+            repeat(5) {
+                val fetchedWallpapers = repository.getWallpapers()
+                if (fetchedWallpapers.isNotEmpty()) {
+                    _wallpapers.value = fetchedWallpapers
+                    return@launch
+                }
+                delay(4000)
+            }
         }
     }
 }

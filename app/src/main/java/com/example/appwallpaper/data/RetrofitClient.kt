@@ -1,7 +1,5 @@
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.example.appwallpaper.data.remote.ApiService
-
 
 object RetrofitClient {
     private const val BASE_URL = "https://api.pexels.com/v1/"
