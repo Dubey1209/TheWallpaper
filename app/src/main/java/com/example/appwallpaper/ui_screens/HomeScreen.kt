@@ -16,6 +16,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.appwallpaper.viewmodel.WallpaperViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,18 +45,19 @@ fun HomeScreen(navController: NavController) {
                 contentPadding = PaddingValues(8.dp)
             ) {
                 items(wallpapers) { wallpaper ->
-                    Image(
-                        painter = painterResource(id = wallpaper.imageRes),  // ✅ Use local image
-                        contentDescription = "Wallpaper",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(1f) // Ensures square images
-                            .padding(8.dp)
-                            .clickable {
-                                navController.navigate("wallpaperDetail/${wallpaper.imageRes}")
-                            },
-                        contentScale = ContentScale.Crop
-                    )
+                    if (wallpaper.imageRes != null) {
+                        Image(
+                            painter = painterResource(id = wallpaper.imageRes),
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    } else if (wallpaper.imageUrl != null) {
+                        AsyncImage(
+                            model = wallpaper.imageUrl,
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                 }
             }
         }

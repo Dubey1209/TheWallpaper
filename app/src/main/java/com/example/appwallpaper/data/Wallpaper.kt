@@ -1,8 +1,7 @@
 package com.example.appwallpaper.data
 
-import androidx.annotation.DrawableRes
-
 data class Wallpaper(
     val id: String,
-    @DrawableRes val imageRes: Int
+    val imageUrl: String? = null,  // ✅ API images ke liye
+    val imageRes: Int? = null      // ✅ Local images ke liye
 )

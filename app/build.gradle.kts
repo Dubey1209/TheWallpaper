@@ -2,9 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("kotlin-kapt")  // ✅ Add this for annotation processing
+    id("kotlin-kapt")  // ✅ Annotation Processing ke liye
 }
-
 
 android {
     namespace = "com.example.appwallpaper"
@@ -25,7 +24,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                file("proguard-rules.pro")
             )
         }
     }
@@ -52,26 +51,28 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:1.5.3")
     implementation("androidx.navigation:navigation-compose:2.7.5")
 
-    // Coil for image loading
+    // ✅ Coil for Image Loading
     implementation("io.coil-kt:coil-compose:2.2.2")
 
-    // Wallpaper Manager API
+    // ✅ Wallpaper Manager API
     implementation("androidx.core:core:1.9.0")
 
-    // ✅ Glide for Image Loading
+    // ✅ Glide for Image Loading (Fixed Kotlin DSL syntax)
     implementation("com.github.bumptech.glide:glide:4.16.0")
     kapt("com.github.bumptech.glide:compiler:4.16.0")
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-    kapt("com.github.bumptech.glide:compiler:4.16.0")
+
+    // ✅ Landscapist for Jetpack Compose (Only one version)
+    implementation("com.github.skydoves:landscapist-glide:2.2.10")
+
+    // ✅ Retrofit (API Calls)
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
 
-    implementation("com.github.skydoves:landscapist-glide:2.2.8")
-
+    // ✅ Testing dependencies (Fixed Kotlin DSL syntax)
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.3")
     debugImplementation("androidx.compose.ui:ui-tooling:1.5.3")
 }
-
-

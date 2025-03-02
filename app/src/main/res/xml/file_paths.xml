@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
+    <!-- ✅ Cache path (Agar required ho toh rehne do) -->
     <cache-path name="cache" path="."/>
-</paths>
 
+    <!-- ✅ External storage images ke liye path -->
+    <external-files-path
+        name="shared_images"
+        path="Pictures" />
+</paths>

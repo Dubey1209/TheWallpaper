@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.appwallpaper.navigation.NavGraph
 import com.example.appwallpaper.ui.theme.AppWallpaperTheme
+import com.skydoves.landscapist.glide.GlideImage
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
